@@ -1,34 +1,21 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, BadRequestException } from '@nestjs/common';
 import { TripsService } from './trips.service';
 import { CreateTripDto } from './dto/create-trip.dto';
-import { UpdateTripDto } from './dto/update-trip.dto';
+import { SortBy } from './enums/sort-by.enum';
+import { GetTripsDto } from './dto/get-trips.dto';
 
 @Controller('trips')
 export class TripsController {
-  constructor(private readonly tripsService: TripsService) {}
-
-  @Post()
-  create(@Body() createTripDto: CreateTripDto) {
-    return this.tripsService.create(createTripDto);
-  }
+  constructor(private readonly tripsService: TripsService) { }
 
   @Get()
-  findAll() {
-    return this.tripsService.findAll();
+  async getTrips(
+    @Query() query: GetTripsDto
+  ) {
+    if (!query.origin || !query.destination) {
+      throw new BadRequestException('Origin and destination are required.');
+    }
+    return await this.tripsService.getSortedTrips(query.origin, query.destination, query.sort_by);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.tripsService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTripDto: UpdateTripDto) {
-    return this.tripsService.update(+id, updateTripDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.tripsService.remove(+id);
-  }
 }
