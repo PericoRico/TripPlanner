@@ -1,8 +1,6 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { CreateTripDto } from './dto/create-trip.dto';
-import { UpdateTripDto } from './dto/update-trip.dto';
 import { firstValueFrom } from 'rxjs';
 import { Trip } from './entities/trip.entity';
 import { SortBy } from './enums/sort-by.enum';

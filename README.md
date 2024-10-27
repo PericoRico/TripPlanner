@@ -1,11 +1,22 @@
 ## Description
 
-Trip Planner.
+The Trip Planner API allows users to search for trips from a specified origin to a destination and sort the results based on two available strategies: fastest or cheapest. This provides flexibility in choosing the best option based on either the shortest travel duration or the lowest cost.
+
+The API integrates with a 3rd party service to fetch trip data, using the following endpoint: https://xxx.amazonaws.com/default/trips
+Requests to the API must include an authentication key using the header x-api-key.
+
+Swagger documentation with the main application details is available at: http://localhost:3000/api
+
 
 ## Installation
 
 
-Using node version 20.18.0
+Requirements: 
+
+- node 20.18
+
+
+Install node modules:
 
 ```bash
 $ npm install
@@ -25,6 +36,8 @@ $ npm run start:prod
 ```
 
 ## Test
+
+Unit test are defined for the trips controller and service
 
 ```bash
 # unit tests
