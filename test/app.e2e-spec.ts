@@ -1,24 +1,93 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication } from '@nestjs/common';
+import { INestApplication, ValidationPipe } from '@nestjs/common';
 import * as request from 'supertest';
-import { AppModule } from './../src/app.module';
+import { TripsService } from '../src/trips/trips.service';
+import { TripsController } from '../src/trips/trips.controller';
+import { SortBy } from '../src/trips/enums/sort-by.enum';
+import { HttpService } from '@nestjs/axios';
+import { ConfigModule } from '@nestjs/config';
+import { AppController } from '../src/app.controller';
+import { AppModule } from '../src/app.module';
 
 describe('AppController (e2e)', () => {
   let app: INestApplication;
+  let tripsService: TripsService;
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [AppModule],
+      imports: [ConfigModule, AppModule],
+      controllers: [TripsController],
+      providers: [
+        TripsService,
+        {
+          provide: HttpService,
+          useValue: {
+            get: jest.fn(),
+          },
+        }],
+
     }).compile();
 
     app = moduleFixture.createNestApplication();
+
+    // Configure ValidationPipe 
+    app.useGlobalPipes(new ValidationPipe());
+
     await app.init();
+
+    tripsService = moduleFixture.get<TripsService>(TripsService);
+  });;
+
+  // Test application status
+  it('should return Status', () => {
+
+    const expectedResponse = { status: 'ok' };
+
+    return request(app.getHttpServer())
+      .get('/status')
+      .expect(200)
+      .expect(res => {
+        expect(res.body).toEqual(expectedResponse);
+      });
   });
 
-  it('/ (GET)', () => {
+  // Test validation pipes
+  it('should return 400 when origin is missing', () => {
     return request(app.getHttpServer())
-      .get('/')
-      .expect(200)
-      .expect('Hello World!');
+      .get('/trips')
+      .query({
+        destination: 'ATL',
+        sort_by: SortBy.Fastest
+      })
+      .expect(400)
+      .expect(res => {
+        expect(res.body.message).toContain('origin should not be empty');
+      });
+  });
+
+  it('should return 400 when destination is missing', () => {
+    return request(app.getHttpServer())
+      .get('/trips')
+      .query({
+        origin: 'ATL',
+        sort_by: SortBy.Fastest
+      })
+      .expect(400)
+      .expect(res => {
+        expect(res.body.message).toContain('destination should not be empty');
+      });
+  });
+
+  it('should return 400 when sort_by is missing', () => {
+    return request(app.getHttpServer())
+      .get('/trips')
+      .query({
+        origin: 'ATL',
+        destination: 'SYD',
+      })
+      .expect(400)
+      .expect(res => {
+        expect(res.body.message).toContain('sort_by should not be empty');
+      });
   });
 });
