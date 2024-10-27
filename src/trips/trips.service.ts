@@ -4,7 +4,7 @@ import { ConfigService } from '@nestjs/config';
 import { CreateTripDto } from './dto/create-trip.dto';
 import { UpdateTripDto } from './dto/update-trip.dto';
 import { firstValueFrom } from 'rxjs';
-import { Trip } from './interfaces/trip.entity';
+import { Trip } from './entities/trip.entity';
 import { SortBy } from './enums/sort-by.enum';
 
 
@@ -44,7 +44,7 @@ export class TripsService {
   }
 
   private sortTrips(trips: Trip[], sort_by: SortBy): Trip[] {
-    if (sort_by === 'fastest') {
+    if (sort_by === SortBy.Fastest) {
       return trips.sort((a, b) => a.duration - b.duration);
     } else {
       return trips.sort((a, b) => a.cost - b.cost);
