@@ -1,0 +1,33 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Trip {
+  id          String   @id @default(uuid()) @db.Uuid
+  origin      String   @db.VarChar(3)
+  destination String   @db.VarChar(3)
+  cost        Decimal  @db.Decimal(10, 2)
+  duration    Float
+  type        TripType
+  displayName String   @map("display_name") @db.VarChar(255)
+  createdAt   DateTime @default(now())
+
+  /// Do not accept duplicates
+  @@unique([origin, destination, type], name: "unique_trip")
+  /// Index frequent orgin and destination searchs
+  @@index([origin, destination])
+}
+
+enum TripType {
+  CAR    @map("car")
+  BUS    @map("bus")
+  TRAIN  @map("train")
+  Flight @map("flight")
+
+  @@map("trip_types")
+}

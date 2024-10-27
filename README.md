@@ -37,7 +37,8 @@ $ npm run start:prod
 
 ## Test
 
-Unit test are defined for the trips controller and service
+Unit test are defined for the trips controller and service. 
+E2e test are written for validation purposes.
 
 ```bash
 # unit tests
@@ -46,7 +47,5 @@ $ npm run test
 # e2e tests
 $ npm run test:e2e
 
-# test coverage
-$ npm run test:cov
 ```
 
