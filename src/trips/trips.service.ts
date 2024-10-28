@@ -2,6 +2,8 @@ import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { firstValueFrom } from 'rxjs';
+import { PrismaService } from 'src/prisma_db/prisma.service';
+import { CreateTripDto } from './dto/create-trip.dto';
 import { Trip } from './entities/trip.entity';
 import { SortBy } from './enums/sort-by.enum';
 
@@ -13,6 +15,7 @@ export class TripsService {
   constructor(
     private readonly httpService: HttpService,
     private readonly configService: ConfigService,
+    private readonly prisma: PrismaService
   ) {
     this.apiUrl = this.configService.get<string>('API_TRIPS_URL');
     this.apiKey = this.configService.get<string>('X_API_KEY');
@@ -47,5 +50,19 @@ export class TripsService {
     } else {
       return trips.sort((a, b) => a.cost - b.cost);
     }
+  }
+
+  async createTrip(createTripDto: CreateTripDto): Promise<Trip> {
+    return await this.prisma.trip.create({
+      data: {
+        origin: createTripDto.origin,
+        destination: createTripDto.destination,
+        cost: createTripDto.cost,
+        duration: createTripDto.duration,
+        type: createTripDto.type,
+        id: createTripDto.id,
+        displayName: createTripDto.displayName,
+      },
+    });
   }
 }

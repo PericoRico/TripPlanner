@@ -11,10 +11,10 @@ model Trip {
   id          String   @id @default(uuid()) @db.Uuid
   origin      String   @db.VarChar(3)
   destination String   @db.VarChar(3)
-  cost        Decimal  @db.Decimal(10, 2)
+  cost        Float
   duration    Float
   type        TripType
-  displayName String   @map("display_name") @db.VarChar(255)
+  displayName String   @db.VarChar(255)
   createdAt   DateTime @default(now())
 
   /// Do not accept duplicates
@@ -24,10 +24,10 @@ model Trip {
 }
 
 enum TripType {
-  CAR    @map("car")
-  BUS    @map("bus")
-  TRAIN  @map("train")
-  Flight @map("flight")
+  car
+  bus
+  train
+  flight
 
   @@map("trip_types")
 }

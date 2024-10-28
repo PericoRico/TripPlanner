@@ -20,5 +20,5 @@ export class Trip {
   id: string;
 
   @ApiProperty({ description: 'Display name of the trip' })
-  display_name: string;
+  displayName: string;
 }
