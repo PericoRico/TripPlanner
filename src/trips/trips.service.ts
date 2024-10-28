@@ -61,7 +61,7 @@ export class TripsService {
         duration: createTripDto.duration,
         type: createTripDto.type,
         id: createTripDto.id,
-        displayName: createTripDto.displayName,
+        displayName: createTripDto.display_name,
       },
     });
   }

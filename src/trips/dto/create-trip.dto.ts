@@ -35,6 +35,6 @@ export class CreateTripDto {
     @ApiProperty({ description: 'Display name of the trip' })
     @IsNotEmpty()
     @IsString()
-    displayName: string;
+    display_name: string;
 }
 
