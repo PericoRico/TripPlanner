@@ -1,4 +1,4 @@
-import { Controller, Get, Query, BadRequestException, Post, Delete, Body } from '@nestjs/common';
+import { Controller, Get, Query, BadRequestException, Post, Delete, Body, Param } from '@nestjs/common';
 import { TripsService } from './trips.service';
 import { GetTripsDto } from './dto/get-trips.dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -40,10 +40,10 @@ export class TripsController {
     return await this.tripsService.getAllTrips();
   }
 
-  // @Delete(':id')
-  // @ApiResponse({ status: 204, description: 'Trip deleted' })
-  // async deleteTrip(@Param('id') id: string): Promise<void> {
-  //   await this.tripsService.deleteTrip(id);
-  // }
+  @Delete(':id')
+  @ApiResponse({ status: 204, description: 'Trip deleted' })
+  async deleteTrip(@Param('id') id: string): Promise<Trip> {
+    return await this.tripsService.deleteTrip(id);
+  }
 
 }

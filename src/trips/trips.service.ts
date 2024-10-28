@@ -1,5 +1,5 @@
 import { HttpService } from '@nestjs/axios';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { firstValueFrom } from 'rxjs';
 import { PrismaService } from 'src/prisma_db/prisma.service';
@@ -68,5 +68,13 @@ export class TripsService {
 
   async getAllTrips(): Promise<Trip[]> {
     return await this.prisma.trip.findMany();
+  }
+
+  async deleteTrip(id: string): Promise<Trip> {
+    const deletedTrip = await this.prisma.trip.delete({
+      where: { id },
+    });
+    if (!deletedTrip) throw new NotFoundException(`Trip with id ${id} not found`);
+    return deletedTrip
   }
 }
