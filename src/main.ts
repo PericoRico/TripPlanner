@@ -3,6 +3,7 @@ import { AppModule } from './app.module';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { PrismaClientExceptionFilter } from './exception_filters/prisma-client-exception.filter';
 
 async function bootstrap() {
 
@@ -21,6 +22,7 @@ async function bootstrap() {
   SwaggerModule.setup('api', app, documentFactory);
 
   const port = configService.get('PORT');
+  app.useGlobalFilters(new PrismaClientExceptionFilter());
   await app.listen(port);
   logger.verbose(`Application is running on: http://localhost:${port}`);
 }
