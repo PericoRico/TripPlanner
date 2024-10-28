@@ -21,4 +21,7 @@ export class Trip {
 
   @ApiProperty({ description: 'Display name of the trip' })
   displayName: string;
+
+  @ApiProperty({ description: 'Creation time' })
+  createdAt?: Date
 }

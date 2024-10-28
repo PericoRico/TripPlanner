@@ -65,4 +65,8 @@ export class TripsService {
       },
     });
   }
+
+  async getAllTrips(): Promise<Trip[]> {
+    return await this.prisma.trip.findMany();
+  }
 }

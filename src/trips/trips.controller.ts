@@ -34,12 +34,11 @@ export class TripsController {
     return trip;
   }
 
-  // @Get()
-  // @ApiResponse({ status: 200, description: 'List of trips', type: [TripResponseDto] })
-  // async listTrips(): Promise<TripResponseDto[]> {
-  //   const trips = await this.tripsService.getAllTrips();
-  //   return trips;
-  // }
+  @Get('all')
+  @ApiResponse({ status: 200, description: 'List of trips', type: [Trip] })
+  async listAllTrips(): Promise<Trip[]> {
+    return await this.tripsService.getAllTrips();
+  }
 
   // @Delete(':id')
   // @ApiResponse({ status: 204, description: 'Trip deleted' })
