@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, IsEnum, IsNumber, IsUUID } from 'class-validator';
+import { IsNotEmpty, IsString, IsEnum, IsNumber, IsUUID, Length } from 'class-validator';
 import { TripType } from '@prisma/client';
 import { ApiProperty } from '@nestjs/swagger';
 
@@ -10,11 +10,13 @@ export class CreateTripDto {
     @ApiProperty({ description: 'IATA code of the origin airport' })
     @IsNotEmpty()
     @IsString()
+    @Length(3, 3)
     origin: string;
 
     @ApiProperty({ description: 'IATA code of the destination airport' })
     @IsNotEmpty()
     @IsString()
+    @Length(3, 3)
     destination: string;
 
     @ApiProperty({ description: 'Cost of the trip', example: 7333 })
