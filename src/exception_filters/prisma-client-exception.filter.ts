@@ -16,7 +16,8 @@ export class PrismaClientExceptionFilter extends BaseExceptionFilter {
         const status = HttpStatus.CONFLICT;
         response.status(status).json({
           statusCode: status,
-          message: message,
+          message: `A record with this information already exists. Please verify your data and try again.`,
+          error: message
         });
         break;
       }
@@ -24,17 +25,22 @@ export class PrismaClientExceptionFilter extends BaseExceptionFilter {
         response.status(HttpStatus.NOT_FOUND).json({
           statusCode: HttpStatus.NOT_FOUND,
           message: 'Record not found.',
+          error: message
         });
         break;
       case 'P2003':
         response.status(HttpStatus.BAD_REQUEST).json({
           statusCode: HttpStatus.BAD_REQUEST,
           message: 'Foreign key constraint failed.',
+          error: message
         });
         break;
+
       default:
-        // default 500 error code
-        super.catch(exception, host);
+        response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+          statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+          error: message
+        });
         break;
     }
   }
