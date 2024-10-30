@@ -1,4 +1,4 @@
-import { Controller, Get, Query, BadRequestException, Post, Delete, Body, Param } from '@nestjs/common';
+import { Controller, Get, Query, BadRequestException, Post, Delete, Body, Param, HttpException, HttpStatus } from '@nestjs/common';
 import { TripsService } from './trips.service';
 import { GetTripsDto } from './dto/get-trips.dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -30,8 +30,8 @@ export class TripsController {
   })
   @ApiResponse({ status: 201, description: 'Trip created', type: Trip })
   async saveTrip(@Body() createTripDto: CreateTripDto): Promise<Trip> {
-    const trip = await this.tripsService.createTrip(createTripDto);
-    return trip;
+    return await this.tripsService.createTrip(createTripDto);
+
   }
 
   @Get('all')
