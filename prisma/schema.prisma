@@ -8,14 +8,14 @@ datasource db {
 }
 
 model Trip {
-  id          String   @id @default(uuid()) @db.Uuid
-  origin      String   @db.VarChar(3)
-  destination String   @db.VarChar(3)
-  cost        Float
-  duration    Float
-  type        TripType
-  displayName String   @db.VarChar(255)
-  createdAt   DateTime @default(now())
+  id           String   @id @default(uuid()) @db.Uuid
+  origin       String   @db.VarChar(3)
+  destination  String   @db.VarChar(3)
+  cost         Float
+  duration     Float
+  type         TripType
+  display_name String   @db.VarChar(255)
+  createdAt    DateTime @default(now())
 
   /// Do not accept duplicates
   @@unique([origin, destination, type], name: "unique_trip")

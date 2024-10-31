@@ -20,7 +20,7 @@ export class Trip {
   id: string;
 
   @ApiProperty({ description: 'Display name of the trip' })
-  displayName: string;
+  display_name: string;
 
   @ApiProperty({ description: 'Creation time' })
   createdAt?: Date

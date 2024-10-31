@@ -1,4 +1,4 @@
-import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import axios from 'axios';
 import { PrismaService } from 'src/prisma_db/prisma.service';
@@ -11,6 +11,8 @@ import { SortBy } from './enums/sort-by.enum';
 export class TripsService {
   private readonly apiUrl: string;
   private readonly apiKey: string;
+  private readonly logger = new Logger(TripsService.name);
+
   constructor(
     private readonly configService: ConfigService,
     private readonly prisma: PrismaService
@@ -40,6 +42,7 @@ export class TripsService {
 
       return response.data;
     } catch (error) {
+      this.logger.error(`Error searching for trips: ${error.message}`, error.stack);
       throw new InternalServerErrorException('An error occurred while searching for trips.');
     }
   }
@@ -61,7 +64,7 @@ export class TripsService {
         duration: createTripDto.duration,
         type: createTripDto.type,
         id: createTripDto.id,
-        displayName: createTripDto.display_name,
+        display_name: createTripDto.display_name,
       },
     });
   }

@@ -24,6 +24,10 @@ $ npm install
 
 ## Running the app
 
+Before running the app, ensure that all required environment variables are set correctly. 
+You can do this by creating a `.env` file in the root directory based on `.env.example`. This file includes all necessary variables the application needs to function properly.
+
+
 ```bash
 # development
 $ npm run start
