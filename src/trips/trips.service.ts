@@ -30,11 +30,14 @@ export class TripsService {
 
   async searchTrips(origin: string, destination: string): Promise<Trip[]> {
     try {
-      const url = `${this.apiUrl}/default/trips?origin=${origin}&destination=${destination}`
       const response = await firstValueFrom(
-        this.httpService.get<Trip[]>(url, {
+        this.httpService.get<Trip[]>(`${this.apiUrl}/default/trips`, {
           headers: {
-            'x-api-key': this.apiKey
+            'x-api-key': this.apiKey,
+          },
+          params: {
+            origin,
+            destination,
           },
         }),
       );
