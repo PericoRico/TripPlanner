@@ -16,7 +16,7 @@ export class PrismaClientExceptionFilter extends BaseExceptionFilter {
         const status = HttpStatus.CONFLICT;
         response.status(status).json({
           statusCode: status,
-          message: `A record with this information already exists. Please verify your data and try again.`,
+          message: `A record with this origin, destiantion and type already exists. Please verify your data and try again.`,
           error: message
         });
         break;
