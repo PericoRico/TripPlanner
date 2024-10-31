@@ -1,7 +1,6 @@
-import { HttpService } from '@nestjs/axios';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { firstValueFrom } from 'rxjs';
+import axios from 'axios';
 import { PrismaService } from 'src/prisma_db/prisma.service';
 import { CreateTripDto } from './dto/create-trip.dto';
 import { Trip } from './entities/trip.entity';
@@ -13,7 +12,6 @@ export class TripsService {
   private readonly apiUrl: string;
   private readonly apiKey: string;
   constructor(
-    private readonly httpService: HttpService,
     private readonly configService: ConfigService,
     private readonly prisma: PrismaService
   ) {
@@ -30,20 +28,19 @@ export class TripsService {
 
   async searchTrips(origin: string, destination: string): Promise<Trip[]> {
     try {
-      const response = await firstValueFrom(
-        this.httpService.get<Trip[]>(`${this.apiUrl}/default/trips`, {
-          headers: {
-            'x-api-key': this.apiKey,
-          },
-          params: {
-            origin,
-            destination,
-          },
-        }),
-      );
+      const response = await axios.get<Trip[]>(`${this.apiUrl}/default/trips`, {
+        headers: {
+          'x-api-key': this.apiKey,
+        },
+        params: {
+          origin,
+          destination,
+        },
+      })
+
       return response.data;
     } catch (error) {
-      throw error;
+      throw new InternalServerErrorException('An error occurred while searching for trips.');
     }
   }
 
