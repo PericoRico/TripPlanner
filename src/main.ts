@@ -25,5 +25,6 @@ async function bootstrap() {
   app.useGlobalFilters(new PrismaClientExceptionFilter());
   await app.listen(port);
   logger.verbose(`Application is running on: http://localhost:${port}`);
+  logger.verbose(`Swagger available at: http://localhost:3000/api`)
 }
 bootstrap();

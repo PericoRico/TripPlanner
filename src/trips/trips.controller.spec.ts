@@ -15,8 +15,8 @@ describe('TripsController', () => {
   const mockTrips: Trip[] = [
     {
       id: '1',
-      origin: 'New York',
-      destination: 'Boston',
+      origin: 'YYZ',
+      destination: 'ATL',
       duration: 240,
       cost: 50,
       type: 'bus',
@@ -24,8 +24,8 @@ describe('TripsController', () => {
     },
     {
       id: '2',
-      origin: 'New York',
-      destination: 'Boston',
+      origin: 'YYZ',
+      destination: 'ATL',
       duration: 180,
       cost: 100,
       type: 'train',
