@@ -17,6 +17,10 @@ async function bootstrap() {
     .setDescription('Search a trip from an origin to a destination and sort them by a given strategy')
     .setVersion('1.0')
     .addTag('trips')
+    .addApiKey(
+      { type: 'apiKey', name: 'x-api-key', in: 'header' },
+      'x-api-key',
+    )
     .build();
   const documentFactory = () => SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, documentFactory);

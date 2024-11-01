@@ -1,13 +1,16 @@
-import { Controller, Get, Query, BadRequestException, Post, Delete, Body, Param, ParseUUIDPipe } from '@nestjs/common';
+import { Controller, Get, Query, BadRequestException, Post, Delete, Body, Param, ParseUUIDPipe, UseGuards } from '@nestjs/common';
 import { TripsService } from './trips.service';
 import { GetTripsDto } from './dto/get-trips.dto';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Trip } from './entities/trip.entity';
 import { CreateTripDto } from './dto/create-trip.dto';
+import { ApiKeyGuard } from './guards/auth.guard';
 
 
 @ApiTags('Trips')
 @Controller('trips')
+@UseGuards(ApiKeyGuard)
+@ApiBearerAuth('x-api-key')
 export class TripsController {
   constructor(private readonly tripsService: TripsService) { }
 

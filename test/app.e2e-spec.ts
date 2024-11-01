@@ -13,6 +13,8 @@ describe('AppController (e2e)', () => {
   let app: INestApplication;
   let tripsService: TripsService;
 
+  const API_KEY = process.env.TRIP_PLANNER_API_KEY
+
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [ConfigModule, AppModule, PrismaModule],
@@ -55,6 +57,7 @@ describe('AppController (e2e)', () => {
   it('should return 400 when origin is missing', () => {
     return request(app.getHttpServer())
       .get('/trips')
+      .set('x-api-key', API_KEY)
       .query({
         destination: 'ATL',
         sort_by: SortBy.Fastest
@@ -68,6 +71,7 @@ describe('AppController (e2e)', () => {
   it('should return 400 when destination is missing', () => {
     return request(app.getHttpServer())
       .get('/trips')
+      .set('x-api-key', API_KEY)
       .query({
         origin: 'ATL',
         sort_by: SortBy.Fastest
@@ -81,6 +85,7 @@ describe('AppController (e2e)', () => {
   it('should return 400 when sort_by is missing', () => {
     return request(app.getHttpServer())
       .get('/trips')
+      .set('x-api-key', API_KEY)
       .query({
         origin: 'ATL',
         destination: 'SYD',
