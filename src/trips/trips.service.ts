@@ -73,6 +73,18 @@ export class TripsService {
     return await this.prisma.trip.findMany();
   }
 
+  async getTrip(id: string): Promise<Trip> {
+    const trip = await this.prisma.trip.findUnique(
+      {
+        where: { id: id },
+      }
+    );
+
+    if (!trip) throw new NotFoundException(`Trip with ID ${id} not found`);
+
+    return trip;
+  }
+
   async deleteTrip(id: string): Promise<Trip> {
     const deletedTrip = await this.prisma.trip.delete({
       where: { id },

@@ -1,9 +1,10 @@
-import { Controller, Get, Query, BadRequestException, Post, Delete, Body, Param } from '@nestjs/common';
+import { Controller, Get, Query, BadRequestException, Post, Delete, Body, Param, ParseUUIDPipe } from '@nestjs/common';
 import { TripsService } from './trips.service';
 import { GetTripsDto } from './dto/get-trips.dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Trip } from './entities/trip.entity';
 import { CreateTripDto } from './dto/create-trip.dto';
+
 
 @ApiTags('Trips')
 @Controller('trips')
@@ -39,6 +40,13 @@ export class TripsController {
   async listAllTrips(): Promise<Trip[]> {
     return await this.tripsService.getAllTrips();
   }
+
+  @Get(':id')
+  @ApiResponse({ status: 200, description: 'Get a saved trip', type: [Trip] })
+  async getTrip(@Param('id', new ParseUUIDPipe()) id: string): Promise<Trip> {
+    return await this.tripsService.getTrip(id);
+  }
+
 
   @Delete(':id')
   @ApiResponse({ status: 204, description: 'Trip deleted' })

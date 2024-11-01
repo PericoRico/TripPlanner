@@ -35,7 +35,6 @@ export class PrismaClientExceptionFilter extends BaseExceptionFilter {
           error: message
         });
         break;
-
       default:
         response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
           statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
