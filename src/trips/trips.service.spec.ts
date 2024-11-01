@@ -4,8 +4,12 @@ import { ConfigService } from '@nestjs/config';
 import { TripsService } from './trips.service';
 import { SortBy } from './enums/sort-by.enum';
 import { Trip } from './entities/trip.entity';
-import { of } from 'rxjs';
-import { AxiosResponse, InternalAxiosRequestConfig } from 'axios';
+import axios from 'axios';
+import { PrismaService } from '../prisma_db/prisma.service';
+import { InternalServerErrorException } from '@nestjs/common';
+
+jest.mock('axios');
+const mockedAxios = axios as jest.Mocked<typeof axios>;
 
 describe('TripsService', () => {
   let service: TripsService;
@@ -49,6 +53,7 @@ describe('TripsService', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         TripsService,
+        PrismaService,
         {
           provide: HttpService,
           useValue: {
@@ -89,42 +94,41 @@ describe('TripsService', () => {
       const destination = 'B';
 
       // Mock response
-      const mockAxiosResponse: AxiosResponse = {
+      mockedAxios.get.mockResolvedValue({
         data: mockTrips,
         status: 200,
         statusText: 'OK',
-        headers: {},
-        config: {
-          headers: {} as any,
-        } as InternalAxiosRequestConfig,
-      };
-
-      // Http call simulation. Intercepts get method to return the mock
-      jest.spyOn(httpService, 'get').mockImplementationOnce(() => of(mockAxiosResponse));
+      });
 
       const result = await service.searchTrips(origin, destination);
 
-      expect(httpService.get).toHaveBeenCalledWith(
-        `${mockApiUrl}/default/trips?origin=${origin}&destination=${destination}`,
+      expect(mockedAxios.get).toHaveBeenCalledWith(
+        `${mockApiUrl}/default/trips`,
         {
           headers: {
             'x-api-key': mockApiKey,
           },
-        },
+          params: {
+            origin,
+            destination,
+          },
+        }
       );
+
       expect(result).toEqual(mockTrips);
     });
 
-    it('should throw an error when the API call fails', async () => {
+    it('should throw InternalServerErrorException on error', async () => {
       const origin = 'A';
       const destination = 'B';
-      const error = new Error('Error: Missing origin or destination query params');
 
-      jest.spyOn(httpService, 'get').mockImplementationOnce(() => {
-        throw error;
-      });
+      // Simula un error de axios
+      mockedAxios.get.mockRejectedValue(new Error('Network error'));
 
-      await expect(service.searchTrips(origin, destination)).rejects.toThrow('Error: Missing origin or destination query params');
+      // Verifica que se lance la excepción esperada
+      await expect(service.searchTrips(origin, destination))
+        .rejects
+        .toThrow(InternalServerErrorException);
     });
   });
 

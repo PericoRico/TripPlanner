@@ -1,7 +1,7 @@
 import { Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import axios from 'axios';
-import { PrismaService } from 'src/prisma_db/prisma.service';
+import { PrismaService } from '../prisma_db/prisma.service';
 import { CreateTripDto } from './dto/create-trip.dto';
 import { Trip } from './entities/trip.entity';
 import { SortBy } from './enums/sort-by.enum';

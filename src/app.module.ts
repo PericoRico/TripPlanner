@@ -11,7 +11,7 @@ import { TripsModule } from './trips/trips.module';
   imports: [
     TripsModule,
     CacheModule.register({
-      ttl: 30000, // miliseconds
+      ttl: 15000, // miliseconds
     }),
     ConfigModule.forRoot({
       isGlobal: true,

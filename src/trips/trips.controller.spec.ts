@@ -1,7 +1,7 @@
 import { HttpService } from '@nestjs/axios';
-import { BadRequestException } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigModule } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
+import { PrismaService } from '../prisma_db/prisma.service';
 import { GetTripsDto } from './dto/get-trips.dto';
 import { Trip } from './entities/trip.entity';
 import { SortBy } from './enums/sort-by.enum';
@@ -40,6 +40,7 @@ describe('TripsController', () => {
       controllers: [TripsController],
       providers: [
         TripsService,
+        PrismaService,
         {
           provide: HttpService,
           useValue: {

@@ -6,8 +6,8 @@ import { TripsController } from '../src/trips/trips.controller';
 import { SortBy } from '../src/trips/enums/sort-by.enum';
 import { HttpService } from '@nestjs/axios';
 import { ConfigModule } from '@nestjs/config';
-import { AppController } from '../src/app.controller';
 import { AppModule } from '../src/app.module';
+import { PrismaModule } from '../src/prisma_db/prisma.module';
 
 describe('AppController (e2e)', () => {
   let app: INestApplication;
@@ -15,7 +15,7 @@ describe('AppController (e2e)', () => {
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [ConfigModule, AppModule],
+      imports: [ConfigModule, AppModule, PrismaModule],
       controllers: [TripsController],
       providers: [
         TripsService,
