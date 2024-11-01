@@ -17,8 +17,6 @@ model Trip {
   display_name String   @db.VarChar(255)
   createdAt    DateTime @default(now())
 
-  /// Do not accept duplicates
-  @@unique([origin, destination, type], name: "unique_trip")
   /// Index frequent orgin and destination searchs
   @@index([origin, destination])
 }
