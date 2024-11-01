@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, IsEnum, IsNumber, IsUUID, Length, IsIn } from 'class-validator';
+import { IsNotEmpty, IsString, IsEnum, IsNumber, IsUUID, IsIn } from 'class-validator';
 import { TripType } from '@prisma/client';
 import { ApiProperty } from '@nestjs/swagger';
 import { VALID_AIRPORTS } from '../enums/airports.constant';

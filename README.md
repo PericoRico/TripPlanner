@@ -58,3 +58,9 @@ $ npm run test:e2e
 In this exercise, the implemented API allows any user to save or delete trip entries without specific user restrictions or ownership verification. This approach meets the exercise requirements but may not reflect typical production standards, where strict access controls would likely be in place. In a production-ready application, each trip entry would ideally be linked to a unique user identifier, with appropriate authorization measures to ensure only the owner of a trip entry can modify or delete it.
 
 This design is intended solely for demonstration purposes and should not be assumed as secure or privacy-compliant for production environments.
+
+## Extras, 
+
+### Stopover trips
+
+THe type of these kind of trip has been determined by the first leg of the trip. This may not be fully correct since the trip would possible be a combination of transports.

@@ -16,6 +16,7 @@ model Trip {
   type         TripType
   display_name String   @db.VarChar(255)
   createdAt    DateTime @default(now())
+  isDirect     Boolean  @default(true)
 
   /// Index frequent orgin and destination searchs
   @@index([origin, destination])

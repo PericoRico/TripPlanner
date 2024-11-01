@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsEnum, IsIn, IsNotEmpty, IsString } from "class-validator";
+import { IsEnum, IsIn, IsNotEmpty } from "class-validator";
 import { VALID_AIRPORTS } from "../enums/airports.constant";
 import { SortBy } from "../enums/sort-by.enum";
 

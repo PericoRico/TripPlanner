@@ -24,4 +24,7 @@ export class Trip {
 
   @ApiProperty({ description: 'Creation time' })
   createdAt?: Date
+
+  @ApiProperty({ description: 'True if the trip is direct' })
+  isDirect?: boolean
 }
